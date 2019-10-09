@@ -1,13 +1,22 @@
 import React from 'react'
 import './index.css'
+import myUtil from '../../util/mm.jsx'
+import User from "../../service/user-service";
+const _user = new User()
+const _mm = new myUtil()
 class Login extends React.Component{
     constructor(props) {
         super(props)
         this.state={
             username:'',
-            password:''
+            password:'',
+            redirect:_mm.getUrlParam('redirect') || '/'
         }
     }
+    componentWillMount() {
+        document.title='登录- shaun shop'
+    }
+
     onInputChange(e) {
         let name = e.target.name;
         let value = e.target.value;
@@ -16,7 +25,30 @@ class Login extends React.Component{
         })
     }
     onSubmit=()=> {
+        let loginInfo = {
+            username: this.state.username,
+            password: this.state.password
+        }
+        let checkResult = _user.checkLoginInfo(loginInfo)
+      //  验证通过
+        if (checkResult.status) {
+            _user.login(loginInfo).then(res=> {
+                console.log(this.state.redirect);
+               _mm.setStorage('userInfo', res)
+                this.props.history.push(this.state.redirect)
+            },errMsg=> {
+                _mm.errorTips(errMsg)
+            })
+        } else  {
+        //    不通过
+            _mm.errorTips(checkResult.msg)
+        }
 
+    }
+    onKeyUp(e) {
+        if (e.keyCode === 13) {
+            this.onSubmit()
+        }
     }
     render() {
         return (
@@ -31,6 +63,7 @@ class Login extends React.Component{
                                     type="text"
                                     className="form-control"
                                     placeholder="请输入用户名"
+                                    onKeyUp={e=>this.onKeyUp(e)}
                                     onChange={e=>this.onInputChange(e)}/>
                             </div>
                             <div className="form-group">
@@ -39,6 +72,7 @@ class Login extends React.Component{
                                     type="password"
                                     className="form-control"
                                     placeholder="请输入密码"
+                                    onKeyUp={e=>this.onKeyUp(e)}
                                     onChange={e=>this.onInputChange(e)}/>
                             </div>
                             <button

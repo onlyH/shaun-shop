@@ -1,10 +1,26 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import MyUtil from '../../util/mm'
+import User from '../../service/user-service'
+const _mm = new MyUtil()
+const _user = new User()
 class TopNav extends React.Component{
+    constructor(props) {
+        super(props)
+        this.state = {
+            username: _mm.getStorage('userInfo').username || ''
+        }
+    }
     //退出登录
     onLogout =()=> {
-
-    }
+        _user.logout().then(res=> {
+            _mm.removeStorage('userInfo');
+            // this.props.history.push('/login')
+            window.location.href='/login'
+        },errorMeg => {
+            _mm.errorTips(errorMeg)
+        })
+    };
     render() {
         return (
             <nav className="navbar navbar-default top-navbar">
@@ -16,7 +32,7 @@ class TopNav extends React.Component{
                     <li className="dropdown">
                         <a className="dropdown-toggle">
                             <i className="fa fa-user fa-fw"/>
-                            <span>welcome admin</span>
+                            <span>welcome {this.state.username}</span>
                             <i className="fa fa-caret-down"/>
                         </a>
                         <ul className="dropdown-menu dropdown-user">

@@ -8,14 +8,14 @@ class SideNav extends React.Component{
                     <ul className="nav" id="main-menu">
                         <li>
                             {/*/!*className="active-menu"  *!/  高亮*/}
-                            <NavLink  to="/" activeClassName="active-menu">
+                            <NavLink  exact  to="/" activeClassName="active-menu">
                                 <i className="fa fa-dashboard"/>
                                 首页
                             </NavLink>
                         </li>
                         <li className="active">
                             <Link to="/product">
-                                <i className="fa fa-sitemap"/>
+                                <i className="fa fa-list"/>
                                商品
                                 <span className="fa arrow"/>
                             </Link>
@@ -24,37 +24,35 @@ class SideNav extends React.Component{
                                     <NavLink to="/product" activeClassName="active-menu">商品管理</NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to="/product.category" activeClassName="active-menu" >品类管理</NavLink>
+                                    <NavLink to="/product-category" activeClassName="active-menu" >品类管理</NavLink>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <Link to="/">
-                                <i className="fa fa-sitemap"/>
+                            <Link to="/order">
+                                <i className="fa fa-check-square-o"/>
                                 订单
                                 <span className="fa arrow"/>
                             </Link>
                             <ul className="nav nav-second-level collapse in">
                                 <li>
-                                    <Link to="/">订单管理</Link>
+                                    <NavLink to="/order" activeClassName="active-menu">订单管理</NavLink>
                                 </li>
                             </ul>
                         </li>
-                        <li>
-                            <Link to="/">
-                                <i className="fa fa-sitemap"/>
+                        <li className="active">
+                            <Link to="/user">
+                                <i className="fa fa-user-o"/>
                                 用户
                                 <span className="fa arrow"/>
                             </Link>
                             <ul className="nav nav-second-level collapse in">
                                 <li>
-                                    <Link to="/">用户管理</Link>
+                                    <NavLink to="/user" activeClassName="active-menu">用户管理</NavLink>
                                 </li>
                             </ul>
                         </li>
-                        <li>
-                            <Link to="/"><i className="fa fa-fw fa-file"/> Empty Page</Link>
-                        </li>
+
                     </ul>
 
                 </div>
